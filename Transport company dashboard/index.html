@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система моніторингу транспорту</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Система моніторингу транспорту</h1>
+        </header>
+
+        <!-- Статистика -->
+        <section class="statistics-section">
+            <h2>Статистика</h2>
+            <div class="charts-container">
+                <div class="chart">
+                    <h3>Активні транспортні засоби</h3>
+                    <canvas id="activeVehiclesChart"></canvas>
+                </div>
+                <div class="chart">
+                    <h3>Типи транспорту</h3>
+                    <canvas id="vehicleTypesChart"></canvas>
+                </div>
+                <div class="chart">
+                    <h3>Виконані замовлення</h3>
+                    <canvas id="completedOrdersChart"></canvas>
+                </div>
+                <div class="chart">
+                    <h3>Середня відстань</h3>
+                    <canvas id="averageDistanceChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Таблиці -->
+        <div class="tables-container">
+            <!-- Транспортні засоби -->
+            <section class="vehicles-section">
+                <h2>Транспортні засоби</h2>
+                <table id="vehiclesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Тип</th>
+                            <th>Статус</th>
+                            <th>Локація</th>
+                            <th>Маршрут</th>
+                            <th>Вантаж</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <!-- Замовлення -->
+            <section class="orders-section">
+                <h2>Замовлення</h2>
+                <div class="orders-tabs">
+                    <button class="tab-button active" data-tab="active">Активні</button>
+                    <button class="tab-button" data-tab="completed">Виконані</button>
+                </div>
+                <table id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Статус</th>
+                            <th>Звідки</th>
+                            <th>Куди</th>
+                            <th>Створено</th>
+                            <th>Вантаж</th>
+                            <th>Вартість</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+        </div>
+
+        <!-- Карта -->
+        <section class="map-section">
+            <div class="map-controls">
+                <h2>Карта транспорту</h2>
+                <div class="map-filters">
+                    <button class="filter-button active" data-filter="all">Всі</button>
+                    <button class="filter-button" data-filter="active">Активні</button>
+                    <button class="filter-button" data-filter="in-transit">В дорозі</button>
+                    <button class="filter-button" data-filter="maintenance">На технічному</button>
+                </div>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot active"></div>
+                        <span>Активні</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot in-transit"></div>
+                        <span>В дорозі</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot maintenance"></div>
+                        <span>На технічному</span>
+                    </div>
+                </div>
+            </div>
+            <div id="map"></div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

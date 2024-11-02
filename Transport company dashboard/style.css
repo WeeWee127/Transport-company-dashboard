@@ -1,0 +1,225 @@
+/* Базові стилі */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Заголовки */
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    font-size: 2rem;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #34495e;
+    font-size: 1.5rem;
+}
+
+h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+/* Секції */
+section {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Графіки */
+.charts-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.chart {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    height: 300px;
+    position: relative;
+}
+
+.chart canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Таблиці */
+.tables-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Статуси */
+.status-активний { color: #28a745; }
+.status-в-дорозі { color: #007bff; }
+.status-на-технічному { color: #dc3545; }
+.status-в-обробці { color: #ffc107; }
+.status-виконано { color: #28a745; }
+
+/* Вкладки */
+.orders-tabs {
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+    background: #e9ecef;
+}
+
+.tab-button.active {
+    background: #007bff;
+    color: white;
+}
+
+/* Карта */
+.map-section {
+    padding: 0;
+}
+
+.map-controls {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.map-filters {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.filter-button:hover {
+    background: #e9ecef;
+}
+
+.filter-button.active {
+    background: #007bff;
+    color: white;
+}
+
+#map {
+    height: 500px;
+    width: 100%;
+}
+
+/* Адаптивність */
+@media (max-width: 1200px) {
+    .tables-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .container { padding: 10px; }
+    .charts-container { grid-template-columns: 1fr; }
+    .chart { height: 250px; }
+    .map-controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .map-filters {
+        flex-wrap: wrap;
+    }
+    #map { height: 400px; }
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.2rem; }
+    h3 { font-size: 1rem; }
+}
+/* Стилі для легенди карти */
+.map-legend {
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    display: flex;
+    gap: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid white;
+    box-shadow: 0 0 2px rgba(0,0,0,0.3);
+}
+
+.legend-dot.active { background-color: #28a745; }
+.legend-dot.in-transit { background-color: #007bff; }
+.legend-dot.maintenance { background-color: #dc3545; }
