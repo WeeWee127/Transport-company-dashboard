@@ -167,37 +167,37 @@ function initCharts() {
         options: commonOptions
     });
 
-    // Графік типів транспорту
-    new Chart(document.getElementById('vehicleTypesChart'), {
-        type: 'doughnut',
-        data: {
-            labels: ['Вантажівки', 'Фури', 'Мікроавтобуси'],
-            datasets: [{
-                data: [8, 5, 3],
-                backgroundColor: ['#28a745', '#007bff', '#ffc107'],
-                borderWidth: 1,
-                borderColor: isDarkTheme ? '#2d2d2d' : '#ffffff'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            aspectRatio: 1.6,
-            plugins: {
-                legend: {
-                    position: 'right',
-                    labels: {
-                        color: textColor,
-                        font: {
-                            size: 12,
-                            weight: 'bold'
-                        },
-                        padding: 20
-                    }
+// Графік типів транспорту
+new Chart(document.getElementById('vehicleTypesChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Вантажівки', 'Фури', 'Мікроавтобуси'],
+        datasets: [{
+            data: [8, 5, 3],
+            backgroundColor: ['#28a745', '#007bff', '#ffc107'],
+            borderWidth: 1,
+            borderColor: isDarkTheme ? '#2d2d2d' : '#ffffff'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        aspectRatio: 2.2, // Збільшуємо це значення, щоб зробити графік меншим по висоті
+        plugins: {
+            legend: {
+                position: 'right',
+                labels: {
+                    color: textColor,
+                    font: {
+                        size: 12,
+                        weight: 'bold'
+                    },
+                    padding: 20
                 }
             }
         }
-    });
+    }
+});
 
     // Графік виконаних замовлень
     new Chart(document.getElementById('completedOrdersChart'), {
