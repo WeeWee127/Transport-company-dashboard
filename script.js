@@ -348,3 +348,45 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+// Функція для роботи з темою
+function initTheme() {
+    const themeToggle = document.getElementById('themeToggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Перевіряємо збережену тему
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+    }
+
+    // Обробник кліку по кнопці
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        
+        // Зберігаємо вибір користувача
+        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        localStorage.setItem('theme', theme);
+    });
+
+    // Слухаємо системні налаштування
+    prefersDarkScheme.addListener((e) => {
+        if (!localStorage.getItem('theme')) {
+            if (e.matches) {
+                document.body.classList.add('dark-theme');
+            } else {
+                document.body.classList.remove('dark-theme');
+            }
+        }
+    });
+}
+
+// Додаємо виклик функції в основний обробник завантаження
+document.addEventListener('DOMContentLoaded', () => {
+    initCharts();
+    initMap();
+    populateVehiclesTable();
+    populateOrdersTable('active');
+    initTheme(); // Додали ініціалізацію теми
+
+    // ... інший код ...
+});
