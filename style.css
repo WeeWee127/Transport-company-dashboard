@@ -20,9 +20,13 @@ body {
 }
 
 /* Заголовки */
+header {
+    position: relative;
+    margin-bottom: 30px;
+}
+
 h1 {
     text-align: center;
-    margin-bottom: 30px;
     color: #2c3e50;
     font-size: 2rem;
 }
@@ -62,11 +66,6 @@ section {
     border-radius: 8px;
     height: 300px;
     position: relative;
-}
-
-.chart canvas {
-    width: 100% !important;
-    height: 100% !important;
 }
 
 /* Таблиці */
@@ -150,7 +149,6 @@ tr:hover {
     border-radius: 4px;
     cursor: pointer;
     background: #f8f9fa;
-    color: #2c3e50;
 }
 
 .filter-button:hover {
@@ -165,13 +163,42 @@ tr:hover {
 #map {
     height: 500px;
     width: 100%;
+    border-radius: 0 0 8px 8px;
 }
 
-/* Стилі для перемикача теми */
+/* Легенда карти */
+.map-legend {
+    display: flex;
+    gap: 15px;
+    padding: 10px;
+    background: white;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid white;
+    box-shadow: 0 0 2px rgba(0,0,0,0.3);
+}
+
+.legend-dot.active { background-color: #28a745; }
+.legend-dot.in-transit { background-color: #007bff; }
+.legend-dot.maintenance { background-color: #dc3545; }
+
+/* Перемикач теми */
 .theme-toggle {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 0;
+    right: 0;
     padding: 10px;
     border-radius: 50%;
     width: 40px;
@@ -199,7 +226,9 @@ body.dark-theme {
     color: #ffffff;
 }
 
-body.dark-theme header h1 {
+body.dark-theme h1,
+body.dark-theme h2,
+body.dark-theme h3 {
     color: #ffffff;
 }
 
@@ -210,11 +239,17 @@ body.dark-theme section {
 
 body.dark-theme .chart {
     background: #2d2d2d;
+    border: 1px solid #3d3d3d;
+}
+
+body.dark-theme table {
+    color: #ffffff;
 }
 
 body.dark-theme table th {
     background-color: #3d3d3d;
     color: #ffffff;
+    border-bottom: 1px solid #4d4d4d;
 }
 
 body.dark-theme table td {
@@ -225,35 +260,34 @@ body.dark-theme tr:hover {
     background-color: #3d3d3d;
 }
 
-body.dark-theme .tab-button {
-    background: #3d3d3d;
-    color: #ffffff;
-}
+body.dark-theme .status-активний { color: #4cd964; }
+body.dark-theme .status-в-дорозі { color: #5ac8fa; }
+body.dark-theme .status-на-технічному { color: #ff3b30; }
+body.dark-theme .status-в-обробці { color: #ffcc00; }
+body.dark-theme .status-виконано { color: #4cd964; }
 
-body.dark-theme .tab-button:hover {
-    background: #4d4d4d;
-}
-
-body.dark-theme .tab-button.active {
-    background: #007bff;
-}
-
+body.dark-theme .tab-button,
 body.dark-theme .filter-button {
     background: #3d3d3d;
     color: #ffffff;
+    border: 1px solid #4d4d4d;
 }
 
+body.dark-theme .tab-button:hover,
 body.dark-theme .filter-button:hover {
     background: #4d4d4d;
 }
 
+body.dark-theme .tab-button.active,
 body.dark-theme .filter-button.active {
     background: #007bff;
+    border-color: #007bff;
 }
 
 body.dark-theme .map-legend {
     background: #2d2d2d;
     color: #ffffff;
+    border: 1px solid #3d3d3d;
 }
 
 body.dark-theme .theme-toggle {
@@ -284,13 +318,7 @@ body.dark-theme .dark-icon {
     .container { padding: 10px; }
     .charts-container { grid-template-columns: 1fr; }
     .chart { height: 250px; }
-    .map-controls {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .map-filters {
-        flex-wrap: wrap;
-    }
+    .map-filters { flex-wrap: wrap; }
     #map { height: 400px; }
     h1 { font-size: 1.5rem; }
     h2 { font-size: 1.2rem; }
