@@ -26,24 +26,6 @@ const vehicles = [
         route: "-", 
         cargo: "-",
         coordinates: [48.4647, 35.0462]
-    },
-    { 
-        id: "TK004", 
-        type: "Вантажівка", 
-        status: "Активний", 
-        location: "Львів", 
-        route: "Львів - Тернопіль", 
-        cargo: "Меблі",
-        coordinates: [49.8397, 24.0297]
-    },
-    { 
-        id: "TK005", 
-        type: "Фура", 
-        status: "В дорозі", 
-        location: "Харків", 
-        route: "Харків - Полтава", 
-        cargo: "Будматеріали",
-        coordinates: [49.9935, 36.2304]
     }
 ];
 
@@ -60,10 +42,49 @@ const orders = {
     ]
 };
 
+// Функція для роботи з темою
+function initTheme() {
+    const themeToggle = document.getElementById('themeToggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+    }
+
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        localStorage.setItem('theme', theme);
+        
+        destroyCharts();
+        initCharts();
+    });
+
+    prefersDarkScheme.addListener((e) => {
+        if (!localStorage.getItem('theme')) {
+            if (e.matches) {
+                document.body.classList.add('dark-theme');
+            } else {
+                document.body.classList.remove('dark-theme');
+            }
+            destroyCharts();
+            initCharts();
+        }
+    });
+}
+
+// Функція для знищення існуючих графіків
+function destroyCharts() {
+    Chart.helpers.each(Chart.instances, (instance) => {
+        instance.destroy();
+    });
+}
+
 // Ініціалізація графіків
 function initCharts() {
     const isDarkTheme = document.body.classList.contains('dark-theme');
-    const textColor = isDarkTheme ? '#ffffff' : '#666666';
+    const textColor = isDarkTheme ? '#ffffff' : '#333333';
     const gridColor = isDarkTheme ? '#3d3d3d' : '#e0e0e0';
     
     Chart.defaults.color = textColor;
@@ -71,29 +92,58 @@ function initCharts() {
     
     const commonOptions = {
         responsive: true,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
+        aspectRatio: 1.6,
         plugins: {
             legend: {
+                display: true,
+                position: 'top',
                 labels: {
-                    color: textColor
+                    color: textColor,
+                    font: {
+                        size: 12,
+                        weight: 'bold'
+                    },
+                    padding: 10,
+                    usePointStyle: true
                 }
+            }
+        },
+        layout: {
+            padding: {
+                left: 10,
+                right: 10,
+                top: 10,
+                bottom: 10
             }
         },
         scales: {
             x: {
                 grid: {
-                    color: gridColor
+                    color: gridColor,
+                    drawBorder: true,
+                    borderColor: textColor
                 },
                 ticks: {
-                    color: textColor
+                    color: textColor,
+                    font: {
+                        size: 11,
+                        weight: 'bold'
+                    }
                 }
             },
             y: {
                 grid: {
-                    color: gridColor
+                    color: gridColor,
+                    drawBorder: true,
+                    borderColor: textColor
                 },
                 ticks: {
-                    color: textColor
+                    color: textColor,
+                    font: {
+                        size: 11,
+                        weight: 'bold'
+                    }
                 }
             }
         }
@@ -110,7 +160,8 @@ function initCharts() {
                 borderColor: '#007bff',
                 backgroundColor: isDarkTheme ? 'rgba(0, 123, 255, 0.2)' : 'rgba(0, 123, 255, 0.1)',
                 tension: 0.3,
-                fill: true
+                fill: true,
+                borderWidth: 2
             }]
         },
         options: commonOptions
@@ -123,17 +174,25 @@ function initCharts() {
             labels: ['Вантажівки', 'Фури', 'Мікроавтобуси'],
             datasets: [{
                 data: [8, 5, 3],
-                backgroundColor: ['#28a745', '#007bff', '#ffc107']
+                backgroundColor: ['#28a745', '#007bff', '#ffc107'],
+                borderWidth: 1,
+                borderColor: isDarkTheme ? '#2d2d2d' : '#ffffff'
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
+            aspectRatio: 1.6,
             plugins: {
                 legend: {
                     position: 'right',
                     labels: {
-                        color: textColor
+                        color: textColor,
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        },
+                        padding: 20
                     }
                 }
             }
@@ -144,13 +203,14 @@ function initCharts() {
     new Chart(document.getElementById('completedOrdersChart'), {
         type: 'bar',
         data: {
-            labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт'],
+            labels: ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень'],
             datasets: [{
-                label: 'Замовлення',
+                label: 'Виконані замовлення',
                 data: [12, 19, 15, 17, 14],
                 backgroundColor: isDarkTheme ? 'rgba(40, 167, 69, 0.2)' : 'rgba(40, 167, 69, 0.1)',
                 borderColor: '#28a745',
-                borderWidth: 1
+                borderWidth: 2,
+                borderRadius: 5
             }]
         },
         options: commonOptions
@@ -167,39 +227,11 @@ function initCharts() {
                 borderColor: '#dc3545',
                 backgroundColor: isDarkTheme ? 'rgba(220, 53, 69, 0.2)' : 'rgba(220, 53, 69, 0.1)',
                 tension: 0.3,
-                fill: true
+                fill: true,
+                borderWidth: 2
             }]
         },
         options: commonOptions
-    });
-}
-
-// Функція для роботи з темою
-function initTheme() {
-    const themeToggle = document.getElementById('themeToggle');
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark') {
-        document.body.classList.add('dark-theme');
-    }
-
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-theme');
-        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-        localStorage.setItem('theme', theme);
-        initCharts();
-    });
-
-    prefersDarkScheme.addListener((e) => {
-        if (!localStorage.getItem('theme')) {
-            if (e.matches) {
-                document.body.classList.add('dark-theme');
-            } else {
-                document.body.classList.remove('dark-theme');
-            }
-            initCharts();
-        }
     });
 }
 
@@ -264,10 +296,21 @@ function updateMarkers(filter = 'all') {
 
 function initMap() {
     try {
-        map = L.map('map').setView([49.0384, 31.4513], 6);
+        map = L.map('map', {
+            center: [49.0384, 31.4513],
+            zoom: 6,
+            zoomControl: true,
+            maxBounds: [
+                [44.3, 22.2], // Південно-західна межа
+                [52.3, 40.2]  // Північно-східна межа
+            ],
+            maxBoundsViscosity: 1.0
+        });
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
+            attribution: '© OpenStreetMap contributors',
+            minZoom: 6,
+            maxZoom: 18
         }).addTo(map);
 
         updateMarkers();
@@ -279,6 +322,11 @@ function initMap() {
                 e.target.classList.add('active');
                 updateMarkers(e.target.dataset.filter);
             });
+        });
+
+        // Оновлення розміру карти при зміні розміру вікна
+        window.addEventListener('resize', () => {
+            map.invalidateSize();
         });
 
     } catch (error) {
@@ -321,6 +369,21 @@ function populateOrdersTable(type = 'active') {
     `).join('');
 }
 
+// Обробник зміни розміру вікна
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        if (window.innerWidth > 768) {
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'block';
+            });
+        }
+        destroyCharts();
+        initCharts();
+    }, 250);
+});
+
 // Ініціалізація додатку
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
@@ -338,4 +401,27 @@ document.addEventListener('DOMContentLoaded', () => {
             populateOrdersTable(e.target.dataset.tab);
         });
     });
+
+    // Обробка мобільного меню
+    document.querySelectorAll('.mobile-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.mobile-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            const view = tab.dataset.view;
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            document.querySelector(`.${view}-section`).style.display = 'block';
+        });
+    });
+
+    // При завантаженні сторінки показуємо статистику за замовчуванням на мобільних
+    if (window.innerWidth <= 768) {
+        document.querySelectorAll('section').forEach(section => {
+            section.style.display = 'none';
+        });
+        document.querySelector('.statistics-section').style.display = 'block';
+    }
 });
